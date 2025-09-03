@@ -1,4 +1,4 @@
-const verifyToken = (req, res, next) => {
+export const verifyToken = (req, res, next) => {
   try {
     const token = req.header("Authorization");
     let actualToken;
