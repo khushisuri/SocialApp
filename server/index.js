@@ -19,8 +19,11 @@ import morgan from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
 import { register } from "./controllers/auth.js";
-import multer from "multer"
-import authRoutes from "./routes/auth.js"
+import multer from "multer";
+import authRoutes from "./routes/auth.js";
+import User from "./modules/User.js";
+import Post from "./modules/Post.js";
+import { users, posts } from "./data/data.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -59,7 +62,7 @@ const storage = multer.diskStorage({
     cb(null, uploadDir); // provide the folder path
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname)
+    cb(null, file.originalname);
   },
 });
 
@@ -71,7 +74,11 @@ const startServer = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    app.listen(PORT, () => console.log(` Server listening on port ${PORT}`));
+    app.listen(PORT, () => {
+      console.log(` Server listening on port ${PORT}`);
+      User.insertMany(users);
+      Post.insertMany(posts);
+    });
   } catch (err) {
     console.error(" MongoDB connection error:", err.message);
     process.exit(1);
@@ -81,4 +88,4 @@ const startServer = async () => {
 startServer();
 
 app.post("/auth/register", upload.single("picture"), register);
-app.use("/auth",authRoutes)
+app.use("/auth", authRoutes);
