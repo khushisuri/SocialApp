@@ -21,6 +21,7 @@ import mongoose from "mongoose";
 import { register } from "./controllers/auth.js";
 import multer from "multer";
 import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/users.js";
 import User from "./modules/User.js";
 import Post from "./modules/Post.js";
 import { users, posts } from "./data/data.js";
@@ -76,8 +77,8 @@ const startServer = async () => {
     });
     app.listen(PORT, () => {
       console.log(` Server listening on port ${PORT}`);
-      User.insertMany(users);
-      Post.insertMany(posts);
+      //User.insertMany(users);
+      //Post.insertMany(posts);
     });
   } catch (err) {
     console.error(" MongoDB connection error:", err.message);
@@ -89,3 +90,4 @@ startServer();
 
 app.post("/auth/register", upload.single("picture"), register);
 app.use("/auth", authRoutes);
+app.use("/user", userRoutes);

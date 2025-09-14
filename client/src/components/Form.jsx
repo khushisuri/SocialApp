@@ -1,4 +1,3 @@
-import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Button from "@mui/material/Button";
@@ -40,39 +39,64 @@ const Form = ({ pageType, setPageType }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const dispatch = useDispatch();
-
   const loginHandler = async (values) => {
-    const response = await fetch("http://localhost:3001/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
-    const res = await response.json();
-    if (res) {
-      dispatch(setLogin({ user: res.user, token: res.token }));
+    try {
+      const response = await fetch("http://localhost:3001/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Login failed: ${response.statusText}`);
+      }
+
+      const res = await response.json();
+
+      if (res?.user && res?.token) {
+        dispatch(setLogin({ user: res.user, token: res.token }));
+        navigate("/home");
+      } else {
+        console.error("Unexpected login response:", res);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Login failed. Please try again.");
     }
-    navigate("/home");
   };
 
   const registerHandler = async (values, onSubmitProps) => {
-    const formData = new FormData();
-    for (let value in values) {
-        formData.append(value, values[value]);
-    }
+    try {
+      const formData = new FormData();
+      for (let key in values) {
+        formData.append(key, values[key]);
+      }
 
-    formData.append("picturePath", values.picture.name);
-    delete formData.picture;
-    console.log(formData);
+      if (values.picture) {
+        formData.append("picturePath", values.picture.name);
+        delete values.picture;
+      }
 
-    const response = await fetch("http://localhost:3001/auth/register", {
-      method: "POST",
-      body: formData,
-    });
-    const res = await response.json();
-    onSubmitProps.resetForm();
+      const response = await fetch("http://localhost:3001/auth/register", {
+        method: "POST",
+        body: formData,
+      });
 
-    if (res) {
-      setPageType("login");
+      if (!response.ok) {
+        throw new Error(`Registration failed: ${response.statusText}`);
+      }
+
+      const res = await response.json();
+      onSubmitProps.resetForm();
+
+      if (res) {
+        setPageType("login");
+      } else {
+        console.error("Unexpected register response:", res);
+      }
+    } catch (error) {
+      console.error("Register error:", error);
+      alert("Registration failed. Please try again.");
     }
   };
 

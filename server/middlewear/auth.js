@@ -1,8 +1,11 @@
+import jwt from "jsonwebtoken";
+
 export const verifyToken = (req, res, next) => {
   try {
     const token = req.header("Authorization");
     let actualToken;
-    if (token) {
+    console.log(token)    
+    if (!token){
       return res.status(401).json({ message: "access denied" });
     }
     if (token.startsWith("Bearer ")) {

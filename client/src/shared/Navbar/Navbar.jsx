@@ -19,8 +19,9 @@ import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import HelpOutlinedIcon from "@mui/icons-material/HelpOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import { setMode } from "../../state/state";
+import { setLogout, setMode } from "../../state/state";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const theme = useTheme();
@@ -29,6 +30,7 @@ const Navbar = () => {
   const isMobileScreen = useMediaQuery("(max-width:900px)");
   const fullname = user ? `${user.firstName} ${user.lastName}` : "Guest User";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isMobileSubMenuOpen, setIsMobileSubMenuOpen] = useState(false);
   return (
     <Box
@@ -95,6 +97,12 @@ const Navbar = () => {
                     backgroundColor: "background.paper",
                   },
                 }}
+                onChange={(e) => {
+                  if (e.target.value === "logout") {
+                    dispatch(setLogout());
+                    navigate("/");
+                  }
+                }}
               >
                 <MenuItem value={fullname}>
                   <Typography>{fullname}</Typography>
@@ -157,6 +165,12 @@ const Navbar = () => {
                       "& .MuiSelect-select:focus": {
                         backgroundColor: "background.paper",
                       },
+                    }}
+                    onChange={(e) => {
+                      if (e.target.value === "logout") {
+                        dispatch(setLogout());
+                        navigate("/");
+                      }
                     }}
                   >
                     <MenuItem value={fullname}>
