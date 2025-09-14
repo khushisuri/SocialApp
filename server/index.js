@@ -22,9 +22,12 @@ import { register } from "./controllers/auth.js";
 import multer from "multer";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
+import postRoutes from "./routes/post.js";
 import User from "./modules/User.js";
 import Post from "./modules/Post.js";
 import { users, posts } from "./data/data.js";
+import { verifyToken } from "./middlewear/auth.js";
+import { createPost } from "./controllers/post.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -89,5 +92,8 @@ const startServer = async () => {
 startServer();
 
 app.post("/auth/register", upload.single("picture"), register);
+
+app.post("/posts", verifyToken, upload.single("picture"), createPost)
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/posts",postRoutes);
