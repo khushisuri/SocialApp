@@ -46,7 +46,7 @@ const Form = ({ pageType, setPageType }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
-
+      
       if (!response.ok) {
         throw new Error(`Login failed: ${response.statusText}`);
       }

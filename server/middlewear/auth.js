@@ -4,7 +4,6 @@ export const verifyToken = (req, res, next) => {
   try {
     const token = req.header("Authorization");
     let actualToken;
-    console.log(token)    
     if (!token){
       return res.status(401).json({ message: "access denied" });
     }
@@ -14,6 +13,7 @@ export const verifyToken = (req, res, next) => {
     }
     const verified = jwt.verify(actualToken, process.env.JWT_SECRET)
     req.user = verified;
+    
     next();
   } catch (err){
     res.status(404).json({ message: err.message });

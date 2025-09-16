@@ -13,7 +13,6 @@ import Divider from "@mui/material/Divider";
 
 const UserWidget = ({ id, picturePath }) => {
   const { token } = useSelector((state) => state);
-  console.log(token);
   const theme = useTheme();
   const [user, setUser] = useState(null);
   const fullname = `${user?.firstName} ${user?.lastName}`;
@@ -24,7 +23,6 @@ const UserWidget = ({ id, picturePath }) => {
     });
     const response = await user.json();
     setUser(response);
-    console.log(response);
   };
 
   useEffect(() => {

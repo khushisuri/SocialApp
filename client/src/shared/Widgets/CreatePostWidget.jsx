@@ -46,7 +46,7 @@ const CreatePostWidget = ({ picturePath }) => {
   return (
     <Box
       padding={"1rem"}
-      width={"500px"}
+      width={"100%"}
       display="flex"
       flexDirection="column"
       gap="1rem"
