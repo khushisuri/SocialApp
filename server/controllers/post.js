@@ -38,7 +38,6 @@ export const getUserPosts = async (req, res) => {
   try {
     const userId = req.params.userId;
     const posts = await Post.find({ userId });
-    console.log(posts);
 
     res.status(200).json(posts);
   } catch (error) {
@@ -49,7 +48,6 @@ export const getUserPosts = async (req, res) => {
 export const likePost = async (req, res) => {
   const { postId } = req.params;
   const { userId } = req.body;
-  console.log(postId);
   try {
     const post = await Post.findById(postId);
     const isLiked = post.likes.get(userId);
@@ -68,7 +66,6 @@ export const likePost = async (req, res) => {
 
     res.status(200).json(updatedPost);
   } catch (err) {
-    console.log("runs");
     res.status(404).json({ message: err.message });
   }
 };

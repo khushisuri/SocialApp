@@ -26,7 +26,6 @@ const UserWidget = ({ id, picturePath }) => {
     const response = await user.json();
 
     setUser(response);
-    console.log(response);
   };
 
   useEffect(() => {

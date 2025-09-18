@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Dropzone from "react-dropzone";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../state/state";
+import { useState } from "react";
 
 const loginSchema = yup.object({
   email: yup
@@ -39,12 +40,17 @@ const Form = ({ pageType, setPageType }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const dispatch = useDispatch();
+  const [isGuest, setIsGuest] = useState(false);
   const loginHandler = async (values) => {
+    const newValues =
+      isGuest === true
+        ? { email: "khushimuskaan1999@gmail.com", password: "Taekook1@" }
+        : values;
     try {
       const response = await fetch("http://localhost:3001/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify(newValues),
       });
 
       if (!response.ok) {
@@ -54,7 +60,6 @@ const Form = ({ pageType, setPageType }) => {
       const res = await response.json();
 
       if (res?.user && res?.token) {
-        console.log(res.user);
 
         dispatch(setLogin({ user: res.user, token: res.token }));
         navigate("/home");
@@ -79,7 +84,6 @@ const Form = ({ pageType, setPageType }) => {
         delete values.picture;
       }
 
-      console.log(formData);
 
       const response = await fetch("http://localhost:3001/auth/register", {
         method: "POST",
@@ -93,7 +97,6 @@ const Form = ({ pageType, setPageType }) => {
       const res = await response.json();
       onSubmitProps.resetForm();
 
-      console.log(res);
       if (res) {
         setPageType("login");
       } else {
@@ -117,9 +120,9 @@ const Form = ({ pageType, setPageType }) => {
     },
     validationSchema: pageType === "signup" ? signupSchema : loginSchema,
     onSubmit: (values, onSubmitProps) => {
-      console.log("test");
 
       if (pageType === "login") {
+        setIsGuest(false)
         loginHandler(values);
       } else {
         registerHandler(values, onSubmitProps);
@@ -291,6 +294,19 @@ const Form = ({ pageType, setPageType }) => {
             Have an account login here
           </Typography>
         )}
+        <Button
+          color="primary"
+          variant="contained"
+          fullWidth
+          type="button"
+          onClick={() => {
+            setIsGuest(true);
+            loginHandler();
+          }}
+          sx={{ gridColumn: "span 4" }}
+        >
+          Guest Login
+        </Button>
       </form>
     </Box>
   );

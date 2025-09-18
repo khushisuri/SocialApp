@@ -21,7 +21,6 @@ const ProfilePage = () => {
       headers: { Authorization: `Bearer ${token}` },
     });
     const user = await response.json();
-    console.log(user);
     setUser(user);
   };
 

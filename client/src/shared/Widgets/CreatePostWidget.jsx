@@ -37,9 +37,6 @@ const CreatePostWidget = ({ picturePath }) => {
       formData.append("picture", image);
       formData.append("picturePath", image.name);
     }
-    for (const [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
     const response = await fetch("http://localhost:3001/posts", {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
