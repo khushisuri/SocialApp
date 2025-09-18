@@ -4,6 +4,7 @@ import {
   Divider,
   InputBase,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -25,6 +26,8 @@ const CreatePostWidget = ({ picturePath }) => {
   const dispatch = useDispatch();
   const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
+  const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+
   const submitHandler = async () => {
     const formData = new FormData();
     formData.append("userId", _id);
@@ -110,7 +113,11 @@ const CreatePostWidget = ({ picturePath }) => {
         <FlexBetween
           gap="0.25rem"
           onClick={() => setIsImage(!isImage)}
-          sx={{ cursor: "pointer" }}
+          sx={{
+            cursor: "pointer",
+            justifyContent: isNonMobileScreens ? "space-between" : "flex-start",
+            gap: "0.5rem",
+          }}
         >
           <ImageOutlinedIcon />
           <Typography>Image</Typography>

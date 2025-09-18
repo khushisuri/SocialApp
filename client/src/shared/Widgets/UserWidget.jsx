@@ -13,23 +13,26 @@ import Divider from "@mui/material/Divider";
 
 const UserWidget = ({ id, picturePath }) => {
   const { token } = useSelector((state) => state);
-  console.log(token);
   const theme = useTheme();
   const [user, setUser] = useState(null);
   const fullname = `${user?.firstName} ${user?.lastName}`;
+  const userMain = useSelector((state) => state.user);
+
   const getUser = async () => {
     const user = await fetch(`http://localhost:3001/user/${id}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
     const response = await user.json();
+
     setUser(response);
     console.log(response);
   };
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [userMain]);
+
   return (
     user && (
       <Box
@@ -41,6 +44,7 @@ const UserWidget = ({ id, picturePath }) => {
           backgroundColor: theme.palette.background.paper,
           padding: "20px",
           borderRadius: "10px",
+          height:"max-content"
         }}
       >
         <FlexBetween>
@@ -51,7 +55,7 @@ const UserWidget = ({ id, picturePath }) => {
               <Typography variant="p">{`${user.friends.length} friends`}</Typography>
             </Box>
           </Box>
-          <GroupAddOutlinedIcon sx={{cursor:"pointer"}}/>
+          <GroupAddOutlinedIcon sx={{ cursor: "pointer" }} />
         </FlexBetween>
         <Divider />
         <Box display={"flex"} flexDirection={"column"} gap={"0.5rem"}>
@@ -101,7 +105,7 @@ const UserWidget = ({ id, picturePath }) => {
                 <Typography variant="p">Social Network</Typography>
               </Box>
             </Box>
-            <EditIcon sx={{cursor:"pointer"}}/>
+            <EditIcon sx={{ cursor: "pointer" }} />
           </FlexBetween>
           <FlexBetween width={"100%"}>
             <Box display={"flex"} alignItems={"center"} gap={"1rem"}>
@@ -115,7 +119,7 @@ const UserWidget = ({ id, picturePath }) => {
                 <Typography variant="p">Network Platform</Typography>
               </Box>
             </Box>
-            <EditIcon sx={{cursor:"pointer"}}/>
+            <EditIcon sx={{ cursor: "pointer" }} />
           </FlexBetween>
         </Box>
       </Box>

@@ -3,18 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFriends } from "../../state/state";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import Friend from "../../components/Friend";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 
 const FriendsWidget = ({ userId }) => {
   const friends = useSelector((state) =>
     state.user.friends ? state.user.friends : []
   );
 
+  const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
 
   return (
     <>
       {friends.length > 0 && (
-        <WidgetWrapper sx={{ minWidth: "400px" }}>
+        <WidgetWrapper sx={{ minWidth: isNonMobileScreens ? "400px" : "100%"}}>
           <Box display="flex" flexDirection="column" gap="0.5rem">
             {friends.map((friend) => (
               <Friend
