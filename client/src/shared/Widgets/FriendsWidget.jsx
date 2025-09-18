@@ -9,9 +9,27 @@ const FriendsWidget = ({ userId }) => {
   const friends = useSelector((state) =>
     state.user.friends ? state.user.friends : []
   );
-
+ const token = useSelector((state) => state.token);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  const dispatch = useDispatch();
 
+  const getFriends = async () => {
+    const response = await fetch(
+      `http://localhost:3001/user/${userId}/friends`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    const friends = await response.json();
+    console.log(friends);
+    dispatch(setFriends({ friends: friends }));
+  };
+
+  useEffect(() => {
+    getFriends();
+  }, []);
   return (
     <>
       {friends.length > 0 && (

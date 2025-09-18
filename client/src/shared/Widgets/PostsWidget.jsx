@@ -4,11 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "../../state/state";
 import PostWidget from "./PostWidget";
 
-const PostsWidget = ({ isUserPost }) => {
-  const userId = useSelector((state) => state.user._id);
-  const friends = useSelector((state) =>
-    state.user.friends ? state.user.friends : []
-  );
+const PostsWidget = ({ isUserPost, userId }) => {
   const posts = useSelector((state) => state.posts);
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state);
@@ -23,10 +19,13 @@ const PostsWidget = ({ isUserPost }) => {
   };
 
   const getUserPosts = async () => {
-    const response = await fetch(`http://localhost:3001/${userId}/posts`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await fetch(
+      `http://localhost:3001/posts/${userId}/posts`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     const data = await response.json();
     dispatch(setPosts({ posts: data }));
   };
@@ -37,7 +36,6 @@ const PostsWidget = ({ isUserPost }) => {
   return (
     <>
       {posts.map((post) => {
-        const isFriend = friends.find((friend) => friend._id === post.userId);
         return (
           <PostWidget
             key={post._id}
@@ -50,7 +48,6 @@ const PostsWidget = ({ isUserPost }) => {
             likes={Object.keys(post.likes)}
             comments={post.comments}
             friendId={post.userId}
-            isFriend={isFriend}
           />
         );
       })}

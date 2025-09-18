@@ -7,30 +7,9 @@ import CreatePostWidget from "../../shared/Widgets/CreatePostWidget";
 import PostsWidget from "../../shared/Widgets/PostsWidget";
 import AdvertWidget from "../../shared/Widgets/AdvertWidget";
 import FriendsWidget from "../../shared/Widgets/FriendsWidget";
-import { setFriends } from "../../state/state";
 const Homepage = () => {
   const user = useSelector((state) => state.user);
-  const token = useSelector((state) => state.token);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const dispatch = useDispatch();
-
-  const getFriends = async () => {
-    const response = await fetch(
-      `http://localhost:3001/user/${user?._id}/friends`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-
-    const friends = await response.json();
-    console.log(friends);
-    dispatch(setFriends({ friends: friends }));
-  };
-
-  useEffect(() => {
-    getFriends();
-  }, []);
   return (
     <div>
       <Navbar />
@@ -48,7 +27,9 @@ const Homepage = () => {
           display="flex"
           justifyContent="center"
         >
-          {user && <UserWidget id={user._id} picturePath={user.picturePath} />}
+          {user && (
+            <UserWidget id={user?._id} picturePath={user?.picturePath} />
+          )}
         </Box>
 
         <Box
@@ -62,9 +43,7 @@ const Homepage = () => {
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
           {user && <CreatePostWidget picturePath={user.picturePath} />}
-          {user?.friends !== "undefined" && user?.friends !== null && (
-            <PostsWidget isUserPost={false} />
-          )}
+          {user && <PostsWidget isUserPost={false} />}
         </Box>
         <Box
           padding="0rem 1rem"
@@ -76,9 +55,7 @@ const Homepage = () => {
           flexBasis="26%"
         >
           <AdvertWidget />
-          {user?.friends !== "undefined" && user?.friends !== null && (
-            <FriendsWidget userId={user?._id} />
-          )}
+          {user && <FriendsWidget userId={user?._id} />}
         </Box>
       </Box>
     </div>

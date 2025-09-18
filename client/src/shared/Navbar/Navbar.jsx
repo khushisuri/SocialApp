@@ -43,6 +43,7 @@ const Navbar = () => {
             sx={{ fontSize: "clamp(1rem,2rem,3rem)", cursor: "pointer" }}
             color={theme.palette.primary.main}
             fontWeight={600}
+            onClick={() => navigate("/home")}
           >
             Sociopedia
           </Typography>

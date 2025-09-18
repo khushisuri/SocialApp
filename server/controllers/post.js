@@ -4,7 +4,7 @@ import User from "../modules/User.js";
 export const createPost = async (req, res) => {
   try {
     const { userId, description, picturePath } = req.body;
-    const user = await User.findById(userId) ;
+    const user = await User.findById(userId);
     const post = new Post({
       userId,
       firstName: user.firstName,
@@ -38,6 +38,8 @@ export const getUserPosts = async (req, res) => {
   try {
     const userId = req.params.userId;
     const posts = await Post.find({ userId });
+    console.log(posts);
+
     res.status(200).json(posts);
   } catch (error) {
     res.status(401).json({ message: error.message });
@@ -45,10 +47,9 @@ export const getUserPosts = async (req, res) => {
 };
 
 export const likePost = async (req, res) => {
-
-    const { postId } = req.params;
-    const { userId } = req.body;
-    console.log(postId)
+  const { postId } = req.params;
+  const { userId } = req.body;
+  console.log(postId);
   try {
     const post = await Post.findById(postId);
     const isLiked = post.likes.get(userId);
@@ -67,7 +68,7 @@ export const likePost = async (req, res) => {
 
     res.status(200).json(updatedPost);
   } catch (err) {
-    console.log("runs")
+    console.log("runs");
     res.status(404).json({ message: err.message });
   }
 };
