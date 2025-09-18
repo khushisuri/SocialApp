@@ -46,7 +46,7 @@ const Form = ({ pageType, setPageType }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
-      
+
       if (!response.ok) {
         throw new Error(`Login failed: ${response.statusText}`);
       }
@@ -54,6 +54,8 @@ const Form = ({ pageType, setPageType }) => {
       const res = await response.json();
 
       if (res?.user && res?.token) {
+        console.log(res.user);
+
         dispatch(setLogin({ user: res.user, token: res.token }));
         navigate("/home");
       } else {
@@ -77,6 +79,8 @@ const Form = ({ pageType, setPageType }) => {
         delete values.picture;
       }
 
+      console.log(formData);
+
       const response = await fetch("http://localhost:3001/auth/register", {
         method: "POST",
         body: formData,
@@ -89,6 +93,7 @@ const Form = ({ pageType, setPageType }) => {
       const res = await response.json();
       onSubmitProps.resetForm();
 
+      console.log(res);
       if (res) {
         setPageType("login");
       } else {

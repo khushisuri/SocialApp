@@ -6,7 +6,9 @@ import PostWidget from "./PostWidget";
 
 const PostsWidget = ({ isUserPost }) => {
   const userId = useSelector((state) => state.user._id);
-  const friends = useSelector((state) => state.user.friends);
+  const friends = useSelector((state) =>
+    state.user.friends ? state.user.friends : []
+  );
   const posts = useSelector((state) => state.posts);
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state);
@@ -35,7 +37,7 @@ const PostsWidget = ({ isUserPost }) => {
   return (
     <>
       {posts.map((post) => {
-        const isFriend = friends.find((friend) => friend._id === post.userId)
+        const isFriend = friends.find((friend) => friend._id === post.userId);
         return (
           <PostWidget
             key={post._id}

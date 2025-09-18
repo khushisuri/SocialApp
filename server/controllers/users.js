@@ -38,13 +38,15 @@ export const addRemoveFriend = async (req, res) => {
     const { id, friendId } = req.params;
     const user = await User.findById(id);
     const friend = await User.findById(friendId);
-    const isFriend = user.friends.some(friend => friend === friendId);
-    if (isFriend) {
-      user.friends = user.friends.filter((friend) => friend !== friendId);
-      friend.friends = friend.friends.filter((friend) => friend !== id);
+    const isFriend = user.friends.filter((f) => f.equals(friend._id));
+    console.log(user, friend, isFriend);
+    if (isFriend.length > 0) {
+      user.friends = user.friends.filter((f) => !f.equals(friend._id))
+      friend.friends = friend.friends.filter((f) => !f.equals(friend._id))
+      console.log(user, friend);
     } else {
-      user.friends.push(friendId);
-      friend.friends.push(id);
+      user.friends.push(friend._id)
+      friend.friends.push(user._id)
     }
     await user.save();
     await friend.save();

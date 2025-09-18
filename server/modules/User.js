@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema(
   {
     firstName: { type: String, required: true, min: 2, max: 50 },
     lastName: { type: String, required: true, min: 2, max: 50 },
-    friends: { type: Array, default: [] },
+    friends: { type: [mongoose.Schema.Types.ObjectId], ref: "User", default: [] },
     email: { type: String, required: true, max: 50, unique: true },
     password: { type: String, required: true },
     picturePath: { type: String, default: " " },

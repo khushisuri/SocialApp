@@ -52,37 +52,7 @@ const PostWidget = ({
   }
 };
 
-const addRemoveFriend = async () => {
-    const id = userId
-    try {
-    const response = await fetch(
-      `http://localhost:3001/user/${id}/${friendId}`,
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
 
-    if (!response.ok) {
-      const text = await response.text();
-      throw new Error(`addRemoveFriend failed: ${response.status} ${text}`);
-    }
-
-    const data = await response.json();
-    console.log(data);
-
-    if (!Array.isArray(data)) {
-      console.error("Unexpected friends payload:", data);
-      return;
-    }
-
-    dispatch(setFriends({ friends: data }));
-  } catch (err) {
-    console.error("addRemoveFriend error:", err);
-  }
-};
 
   return (
     <WidgetWrapper>
@@ -91,8 +61,8 @@ const addRemoveFriend = async () => {
           userPicturePath={userPicturePath}
           fullname={fullname}
           location={location}
-          addRemoveFriend={addRemoveFriend}
           isFriend={isFriend}
+          friendId = {friendId}
         />
         <Typography variant="p">{description}</Typography>
         <img
