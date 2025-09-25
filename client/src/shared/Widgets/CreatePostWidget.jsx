@@ -110,7 +110,12 @@ const CreatePostWidget = ({ picturePath }) => {
         </Dropzone>
       )}
       <Divider />
-      <Box display="flex" alignItems="center" justifyContent="space-between">
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        flex-wrap="wrap"
+      >
         <FlexBetween
           gap="0.25rem"
           onClick={() => setIsImage(!isImage)}

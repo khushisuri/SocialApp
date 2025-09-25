@@ -6,7 +6,6 @@ import FlexBetween from "../../components/FlexBetween";
 const AdvertWidget = () => {
   return (
     <WidgetWrapper
-      maxWidth="400px"
       display="flex"
       flexDirection={"column"}
       gap={"1rem"}

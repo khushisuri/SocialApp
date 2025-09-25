@@ -40,17 +40,12 @@ const Form = ({ pageType, setPageType }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const dispatch = useDispatch();
-  const [isGuest, setIsGuest] = useState(false);
   const loginHandler = async (values) => {
-    const newValues =
-      isGuest === true
-        ? { email: "khushimuskaan1999@gmail.com", password: "Taekook1@" }
-        : values;
     try {
       const response = await fetch("http://localhost:3001/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newValues),
+        body: JSON.stringify(values),
       });
 
       if (!response.ok) {
@@ -60,7 +55,6 @@ const Form = ({ pageType, setPageType }) => {
       const res = await response.json();
 
       if (res?.user && res?.token) {
-
         dispatch(setLogin({ user: res.user, token: res.token }));
         navigate("/home");
       } else {
@@ -83,7 +77,6 @@ const Form = ({ pageType, setPageType }) => {
         formData.append("picturePath", values.picture.name);
         delete values.picture;
       }
-
 
       const response = await fetch("http://localhost:3001/auth/register", {
         method: "POST",
@@ -120,9 +113,7 @@ const Form = ({ pageType, setPageType }) => {
     },
     validationSchema: pageType === "signup" ? signupSchema : loginSchema,
     onSubmit: (values, onSubmitProps) => {
-
       if (pageType === "login") {
-        setIsGuest(false)
         loginHandler(values);
       } else {
         registerHandler(values, onSubmitProps);
@@ -300,8 +291,10 @@ const Form = ({ pageType, setPageType }) => {
           fullWidth
           type="button"
           onClick={() => {
-            setIsGuest(true);
-            loginHandler();
+            loginHandler({
+              email: "khushimuskaan1999@gmail.com",
+              password: "Taekook1@",
+            });
           }}
           sx={{ gridColumn: "span 4" }}
         >

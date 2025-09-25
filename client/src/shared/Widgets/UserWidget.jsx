@@ -39,7 +39,7 @@ const UserWidget = ({ id, picturePath }) => {
         flexDirection={"column"}
         gap={"1rem"}
         sx={{
-          width: "300px",
+          width: "100%",
           backgroundColor: theme.palette.background.paper,
           padding: "20px",
           borderRadius: "10px",
