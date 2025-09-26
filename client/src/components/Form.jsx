@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import Dropzone from "react-dropzone";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../state/state";
-import { useState } from "react";
 
 const loginSchema = yup.object({
   email: yup
