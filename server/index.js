@@ -71,7 +71,8 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-const PORT = process.env.PORT || 6001;
+const PORT = process.env.PORT || 3001;
+const HOST = "0.0.0.0";
 const startServer = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URL, {
@@ -79,7 +80,11 @@ const startServer = async () => {
       useUnifiedTopology: true,
     });
     app.listen(PORT, () => {
-      console.log(` Server listening on port ${PORT}`);
+      console.log("Mongo connected");
+      app.listen(PORT, HOST, () => {
+        console.log(`listening on ${HOST}:${PORT}`);
+        console.log(mongoose.connection.readyState, "state");
+      });
       //User.insertMany(users);
       //Post.insertMany(posts);
     });
@@ -93,7 +98,7 @@ startServer();
 
 app.post("/auth/register", upload.single("picture"), register);
 
-app.post("/posts", verifyToken, upload.single("picture"), createPost)
+app.post("/posts", verifyToken, upload.single("picture"), createPost);
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
-app.use("/posts",postRoutes);
+app.use("/posts", postRoutes);

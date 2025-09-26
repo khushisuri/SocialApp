@@ -15,7 +15,7 @@ const AdvertWidget = () => {
         <Typography>Create Ad</Typography>
       </FlexBetween>
       <img
-        src={`http://localhost:3001/assets/pexels-polina-tankilevitch-3735172.jpg`}
+        src={`${process.env.REACT_APP_BASE_URL}/assets/pexels-polina-tankilevitch-3735172.jpg`}
         alt="profile-picture"
         style={{
           width: "100%",

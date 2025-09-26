@@ -15,7 +15,7 @@ const UserImage = ({ picturePath }) => {
       }}
     >
       <img
-        src={`http://localhost:3001/assets/${picturePath}`}
+        src={`${process.env.REACT_APP_BASE_URL}/assets/${picturePath}`}
         alt="profile-picture"
         style={{
           width: "100%",

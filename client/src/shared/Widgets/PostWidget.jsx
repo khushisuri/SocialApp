@@ -31,7 +31,7 @@ const PostWidget = ({
 
   const likePost = async () => {
   try {
-    const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/posts/${postId}/like`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -66,7 +66,7 @@ const PostWidget = ({
         />
         <Typography variant="p">{description}</Typography>
         <img
-          src={`http://localhost:3001/assets/${postPicturePath}`}
+          src={`${process.env.REACT_APP_BASE_URL}/assets/${postPicturePath}`}
           alt="profile-picture"
           style={{
             width: "100%",

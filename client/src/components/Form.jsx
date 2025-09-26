@@ -42,7 +42,7 @@ const Form = ({ pageType, setPageType }) => {
   const dispatch = useDispatch();
   const loginHandler = async (values) => {
     try {
-      const response = await fetch("http://localhost:3001/auth/login", {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
@@ -78,7 +78,7 @@ const Form = ({ pageType, setPageType }) => {
         delete values.picture;
       }
 
-      const response = await fetch("http://localhost:3001/auth/register", {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/register`, {
         method: "POST",
         body: formData,
       });

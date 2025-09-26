@@ -20,7 +20,7 @@ const Friend = ({ userPicturePath, fullname, location, friendId }) => {
     const id = userId;
     try {
       const response = await fetch(
-        `http://localhost:3001/user/${id}/${friendId}`,
+        `${process.env.REACT_APP_BASE_URL}/user/${id}/${friendId}`,
         {
           method: "PATCH",
           headers: {
