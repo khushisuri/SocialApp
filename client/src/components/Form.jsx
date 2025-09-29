@@ -19,6 +19,7 @@ const loginSchema = yup.object({
     .required("Password is required"),
 });
 
+
 const signupSchema = yup.object({
   firstName: yup.string("Enter First Name").required("required"),
   lastName: yup.string("Enter Last Name").required("required"),
