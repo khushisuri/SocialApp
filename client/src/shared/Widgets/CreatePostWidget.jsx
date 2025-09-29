@@ -114,7 +114,7 @@ const CreatePostWidget = ({ picturePath }) => {
         display="flex"
         alignItems="center"
         justifyContent="space-between"
-        flex-wrap="wrap"
+        sx={{ flexWrap: "wrap !important" }}
       >
         <FlexBetween
           gap="0.25rem"
